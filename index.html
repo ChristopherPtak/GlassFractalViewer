@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <!-- Page title -->
+    <title>Glass Fractal Viewer</title>
+
+    <style>
+
+      html, body {
+
+        /* By default, make the background black */
+        background: black;
+
+        /* Allow the canvas to fill the window */
+        margin: 0;
+        overflow: hidden;
+        display: block;
+
+      }
+
+      canvas {
+
+        /* Stay fixed in place */
+        position: absolute;
+        top: 0px;
+
+        /* Remain behind everything else */
+        z-index: 0;
+
+      }
+
+      /*
+       * The root dropdown
+       */
+
+      .dropdown-menu {
+
+        /* Text font and details */
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        color: white;
+
+        /* Margins for menu button */
+        margin: 10px;
+
+      }
+
+      /*
+       * The first layer of dropdowns
+       */
+
+      .dropdown-block-0 {
+        position: absolute;
+        z-index: 1;
+      }
+
+      .dropdown-label-0 {
+        background: rgba(0, 0, 0, 0.5);
+        padding: 5px;
+      }
+
+      .dropdown-content-0 {
+
+        /* Hidden by default */
+        position: absolute;
+        display: none;
+
+        background: transparent;
+
+      }
+
+      /*
+       * The second layer of dropdowns
+       */
+
+      .dropdown-block-1 {
+        position: relative;
+        z-index: 1;
+      }
+
+      .dropdown-label-1 {
+        background: rgba(0, 0, 0, 0.5);
+        width: 150px;
+        padding: 5px;
+      }
+
+      .dropdown-content-1 {
+
+        /* Position and alignment */
+        left: 100%;
+        top: 0;
+
+        /* Hidden by default */
+        position: absolute;
+        display: none;
+
+        /* Black backdrop */
+        background: rgba(0, 0, 0, 0.5);
+        width: 150px;
+
+      }
+
+      /*
+       * The final layer -- clickable dropdowns
+       */
+
+      .dropdown-option {
+        padding: 5px;
+      }
+
+      /*
+       * Make dropdowns appear only when hovered
+       */
+
+      .dropdown-block-0:hover .dropdown-content-0 {
+        display: block;
+      }
+
+      .dropdown-block-1:hover .dropdown-content-1 {
+        display: inline-block;
+      }
+
+    </style>
+
+  </head>
+  <body>
+
+    <div class="dropdown-menu">
+      <div class="dropdown-block-0">
+        <div class="dropdown-label-0">Menu</div>
+        <div class="dropdown-content-0">
+          <div class="dropdown-block-1">
+            <div class="dropdown-label-1">Fractal</div>
+            <div class="dropdown-content-1">
+              <div class="dropdown-option">
+                <a onclick="setValueFunction(mandelbrotValueFunction);">
+                  Mandelbrot
+                </a>
+              </div>
+            </div>
+          </div>
+           <div class="dropdown-block-1">
+            <div class="dropdown-label-1">Color Scheme</div>
+            <div class="dropdown-content-1">
+              <div class="dropdown-option">
+                <a onclick="setColorFunction(valueToGreyscale);">
+                  Greyscale
+                </a>
+              </div>
+              <div class="dropdown-option">
+                <a onclick="setColorFunction(valueToSpectrum);">
+                  Blackbody
+                </a>
+              </div>
+            </div>
+          </div>
+           <div class="dropdown-block-1">
+            <div class="dropdown-label-1">Quality</div>
+            <div class="dropdown-content-1">
+              <div class="dropdown-option">
+                <a onclick="return false;">
+                  Default
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Drawing space for the fractal viewer -->
+    <canvas id="canvas">
+      This browser does not support the HTML canvas element.
+    </canvas>
+
+    <!-- Import the JavaScript to draw the fractals -->
+    <script src="fractalviewer.js"></script>
+
+  </body>
+</html>
