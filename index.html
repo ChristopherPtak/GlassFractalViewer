@@ -44,6 +44,9 @@
         /* Margins for menu button */
         margin: 10px;
 
+        /* Clickable by default */
+        pointer-events: all;
+
       }
 
       /*
@@ -121,12 +124,48 @@
         display: inline-block;
       }
 
+      /*
+       * Make a hovering, transparent help text
+       */
+
+      .help-text {
+
+        /* Hidden by default */
+        display: none;
+
+        /* Centered on page */
+        position: absolute;
+        width: 500px;
+        height: 200px;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+
+        /* Format interior text like the menus */
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        color: white;
+        padding: 15px;
+
+        /* Visible above canvas */
+        z-index: 2;
+
+        /* Transparent black background */
+        background: rgba(0, 0, 0, 0.5);
+
+        /* Do not interact with mouse */
+        pointer-events: none;
+
+      }
+
     </style>
 
   </head>
   <body>
 
-    <div class="dropdown-menu">
+    <div id="menu" class="dropdown-menu">
       <div class="dropdown-block-0">
         <div class="dropdown-label-0">Menu</div>
         <div class="dropdown-content-0">
@@ -165,6 +204,11 @@
               </div>
             </div>
           </div>
+          <div class="dropdown-block-1">
+            <div class="dropdown-label-1">
+              <a onclick="showHelpText()">Help</a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -173,6 +217,22 @@
     <canvas id="canvas">
       This browser does not support the HTML canvas element.
     </canvas>
+
+    <div id="helptext" class="help-text">
+      <p>
+        To zoom in, left-click on the place you would like to view.
+        To zoom out, left-click near the edge of the window.
+        You can continue zooming in or out before rendering is finished,
+        and the render will be stopped and replaced with the new view.
+      </p>
+      <p>
+        Other actions, such as quality control and color schemes, can be
+        accessed through the menu in the upper left corner.
+      </p>
+      <p>
+        Click anywhere to dismiss this help text.
+      </p>
+    </div>
 
     <!-- Import the JavaScript to draw the fractals -->
     <script src="fractalviewer.js"></script>

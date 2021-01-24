@@ -53,6 +53,32 @@ function setColorFunction(newColorFunction)
     drawScreen();
 }
 
+// Functions for showing and hiding the help text
+
+var helpTextElement = document.getElementById("helptext");
+var menuElement = document.getElementById("menu");
+var helpTextVisible = true;
+
+function showHelpText()
+{
+    // Disable the menu while help is visible
+    menuElement.style.pointerEvents = "none";
+
+    // Show the help text
+    helpTextElement.style.display = "block";
+    helpTextVisible = true;
+}
+
+function hideHelpText()
+{
+    // Re-enable the menu
+    menuElement.style.pointerEvents = "all";
+
+    // Hide the help text
+    helpTextElement.style.display = "none";
+    helpTextVisible = false;
+}
+
 
 /***********************/
 /* Rendering functions */
@@ -288,6 +314,12 @@ viewScale = 0.5;
 // When the screen is clicked:
 canvas.onclick = function(mouseEvent)
 {
+    // Check if this means we should hide the help text
+    if (helpTextVisible) {
+        hideHelpText();
+        return;
+    }
+
     var borderSize = 100;
 
     // Check if mouse is near the edge
