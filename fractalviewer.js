@@ -241,6 +241,45 @@ function mandelbrotValueFunction(realPart, imagPart)
     return 0;
 }
 
+// Evaluate a pixel of the 'Burning Ship' fractal
+function burningShipValueFunction(realPart, imagPart)
+{
+    var maxIterations = 100;
+    var escapeLimit = 4;
+
+    zRealPart = 0;
+    zImagPart = 0;
+
+    for (var i = 0; i < maxIterations; i++) {
+
+        // Take the absolute value of real and imaginary parts
+        var tempRealPart = Math.abs(zRealPart);
+        var tempImagPart = Math.abs(zImagPart);
+
+        zRealPart = Math.pow(tempRealPart, 2) - Math.pow(tempImagPart, 2);
+        zImagPart = 2 * tempRealPart * tempImagPart;
+
+        zRealPart += realPart;
+        zImagPart += imagPart;
+
+        if (Math.pow(zRealPart, 2) + Math.pow(zImagPart, 2) > escapeLimit) {
+
+            var zAbs = Math.sqrt(Math.pow(zRealPart, 2) +
+                                 Math.pow(zImagPart, 2));
+
+            var value = i;
+            value -= Math.log(Math.log(zAbs) / Math.log(2));
+            value /= maxIterations;
+
+            return value;
+
+        }
+
+    }
+
+    return 0;
+}
+
 
 /**************************/
 /* Colorization Functions */
