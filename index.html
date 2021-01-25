@@ -36,12 +36,9 @@
 
       .dropdown-menu {
 
-        /* Text font and details */
         font-family: Arial, sans-serif;
         font-size: 16px;
         color: white;
-
-        /* Margins for menu button */
         margin: 10px;
 
         /* Clickable by default */
@@ -65,11 +62,11 @@
 
       .dropdown-content-0 {
 
-        /* Hidden by default */
         position: absolute;
-        display: none;
-
         background: transparent;
+
+        /* Hidden by default */
+        display: none;
 
       }
 
@@ -90,17 +87,15 @@
 
       .dropdown-content-1 {
 
-        /* Position and alignment */
-        left: 100%;
         top: 0;
+        left: 100%;
+        background: rgba(0, 0, 0, 0.75);
+        width: 150px;
+
 
         /* Hidden by default */
         position: absolute;
         display: none;
-
-        /* Black backdrop */
-        background: rgba(0, 0, 0, 0.75);
-        width: 150px;
 
       }
 
@@ -131,10 +126,10 @@
       .help-text {
 
         /* Hidden by default */
+        position: absolute;
         display: none;
 
         /* Centered on page */
-        position: absolute;
         width: 500px;
         height: 200px;
         top: 0;
@@ -144,6 +139,7 @@
         margin: auto;
 
         /* Format interior text like the menus */
+        background: rgba(0, 0, 0, 0.75);
         font-family: Arial, sans-serif;
         font-size: 16px;
         color: white;
@@ -151,9 +147,6 @@
 
         /* Visible above canvas */
         z-index: 2;
-
-        /* Transparent black background */
-        background: rgba(0, 0, 0, 0.75);
 
         /* Do not interact with mouse */
         pointer-events: none;
@@ -218,6 +211,7 @@
       This browser does not support the HTML canvas element.
     </canvas>
 
+    <!-- The help text popup -->
     <div id="helptext" class="help-text">
       <p>
         To zoom in, left-click on the place you would like to view.

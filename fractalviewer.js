@@ -35,21 +35,15 @@ var viewX;
 var viewY;
 var viewScale;
 
-// Functions for setting these values
-
 function setValueFunction(newValueFunction)
 {
     valueFunction = newValueFunction;
-
-    // Trigger a redraw with the new function
     drawScreen();
 }
 
 function setColorFunction(newColorFunction)
 {
     colorFunction = newColorFunction;
-
-    // Trigger a redraw with the new function
     drawScreen();
 }
 
@@ -64,17 +58,14 @@ function showHelpText()
     // Disable the menu while help is visible
     menuElement.style.pointerEvents = "none";
 
-    // Show the help text
     helpTextElement.style.display = "block";
     helpTextVisible = true;
 }
 
 function hideHelpText()
 {
-    // Re-enable the menu
     menuElement.style.pointerEvents = "all";
 
-    // Hide the help text
     helpTextElement.style.display = "none";
     helpTextVisible = false;
 }
@@ -91,15 +82,12 @@ var RenderQueue = {
 
     jobs: [],
 
-    // Cancel all currently waiting jobs
     clearJobs: function () {
         this.jobs.length = 0;
     },
 
-    // Add a new job
     addJob: function (job) {
 
-        // Put the job on the queue
         RenderQueue.jobs.push(job);
 
         // The job-running callback loop
@@ -136,7 +124,6 @@ function pixelToImagPart(pixelY)
 // Draw a single block of pixels at the given location
 function drawBlock(pixelX, pixelY, size)
 {
-    // Block of image data
     var imageData = context.createImageData(size, size);
     var data = imageData.data;
 
@@ -146,15 +133,12 @@ function drawBlock(pixelX, pixelY, size)
     for (var y = pixelY; y < pixelY + size; y++) {
         for (var x = pixelX; x < pixelX + size; x++) {
 
-            // Calculate value
             var realPart = pixelToRealPart(x);
             var imagPart = pixelToImagPart(y);
             var value = valueFunction(realPart, imagPart);
-
-            // Calculate color
             var colorValue = colorFunction(value);
 
-            // Assign color value to pixels
+            // Every 4 elements is the RGBA of a pixel
             data[i + 0] = colorValue[0];
             data[i + 1] = colorValue[1];
             data[i + 2] = colorValue[2];
@@ -164,7 +148,6 @@ function drawBlock(pixelX, pixelY, size)
         }
     }
 
-    // Copy image data to the correct location
     context.putImageData(imageData, pixelX, pixelY);
 }
 
@@ -173,10 +156,8 @@ function drawScreen()
 {
     // TODO: Parallelize this function
 
-    // The width and height of a rendering block (in pixels)
     var blockSize = 100;
 
-    // Create a list of all blocks to be rendered
     var blocks = [];
     for (var x = 0; x < canvas.width; x += blockSize) {
         for (var y = 0; y < canvas.height; y += blockSize) {
@@ -187,7 +168,6 @@ function drawScreen()
             var distanceFromCenter = Math.pow(x - offsetX, 2)
                                    + Math.pow(y - offsetY, 2);
 
-            // Add an array representing this block
             blocks.push([x, y, distanceFromCenter]);
 
         }
@@ -200,10 +180,7 @@ function drawScreen()
         return 0;
     });
 
-    // Clear the current jobs
     RenderQueue.clearJobs();
-
-    // Add jobs for all new blocks
     blocks.forEach(function (block) {
         RenderQueue.addJob(function () {
             drawBlock(block[0], block[1], blockSize);
@@ -217,9 +194,10 @@ function drawScreen()
 /**********************/
 
 // Evaluate a pixel of the traditional Mandelbrot fractal
+// Determines whether a pixel is in the Mandelbrot set or not, then returns
+// black or a smoothed value indicating how long the sequence took to diverge
 function mandelbrotValueFunction(realPart, imagPart)
 {
-    // Detail parameters
     var maxIterations = 100;
     var escapeLimit = 4;
 
@@ -232,11 +210,9 @@ function mandelbrotValueFunction(realPart, imagPart)
         var tempRealPart = zRealPart;
         var tempImagPart = zImagPart;
 
-        // Square Z
         zRealPart = Math.pow(tempRealPart, 2) - Math.pow(tempImagPart, 2);
         zImagPart = 2 * tempRealPart * tempImagPart;
 
-        // Add C
         zRealPart += realPart;
         zImagPart += imagPart;
 
@@ -249,7 +225,7 @@ function mandelbrotValueFunction(realPart, imagPart)
             var zAbs = Math.sqrt(Math.pow(zRealPart, 2) +
                                  Math.pow(zImagPart, 2));
 
-            // Calculate the smooth value
+            // Calculate the smoothed value
             var value = i;
             value -= Math.log(Math.log(zAbs) / Math.log(2));
             value /= maxIterations;
@@ -311,10 +287,8 @@ viewX = -0.5;
 viewY = 0;
 viewScale = 0.5;
 
-// When the screen is clicked:
 canvas.onclick = function(mouseEvent)
 {
-    // Check if this means we should hide the help text
     if (helpTextVisible) {
         hideHelpText();
         return;
@@ -328,10 +302,7 @@ canvas.onclick = function(mouseEvent)
         || mouseEvent.pageX > window.innerWidth - borderSize
         || mouseEvent.pageY > window.innerHeight - borderSize) {
 
-        // Zoom out
         viewScale /= 2;
-
-        // Reset the view if we try to zoom out too far
         if (viewScale < 0.5) {
             viewX = -0.5;
             viewY = 0;
@@ -339,23 +310,17 @@ canvas.onclick = function(mouseEvent)
         }
 
     } else {
-        // Zoom in to a point
         viewX = pixelToRealPart(mouseEvent.pageX);
         viewY = pixelToImagPart(mouseEvent.pageY);
         viewScale *= 2;
     }
 
-    // Redraw the screen with the new coordinates
     drawScreen();
 };
 
-// When the window size is changed:
 window.onresize = function()
 {
-    // Register the new window size
     updateWindowSize();
-
-    // Redraw the screen
     drawScreen();
 }
 
@@ -368,6 +333,8 @@ context.fillStyle = "rgb(" + defaultColor[0] + ","
                            + defaultColor[2] + ")";
 context.fillRect(0, 0, canvas.width, canvas.height);
 
+
 // Draw the initial fractal view
 drawScreen();
+
 
