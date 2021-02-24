@@ -1,9 +1,13 @@
 
-// TODO: Add different quality levels
-// TODO: Parallelize this program
 // TODO: Add more fractals
+// TODO: Add menu option for Julia Sets
+
+// TODO: Parallelize this program
+// TODO: Modularize program structure
 // TODO: Add more informative comments to the fractal rendering functions
+// TODO: Remove useless comments from the whole program
 // TODO: Reduce code duplication in the rendering functions
+
 
 /**************/
 /* Page Setup */
@@ -36,6 +40,9 @@ var colorFunction;
 var viewX;
 var viewY;
 var viewScale;
+var maxIterations;
+var escapeLimit;
+
 
 function setValueFunction(newValueFunction)
 {
@@ -46,6 +53,13 @@ function setValueFunction(newValueFunction)
 function setColorFunction(newColorFunction)
 {
     colorFunction = newColorFunction;
+    drawScreen();
+}
+
+function setQualityParams(iterations, limit)
+{
+    maxIterations = iterations;
+    escapeLimit = limit;
     drawScreen();
 }
 
@@ -200,9 +214,6 @@ function drawScreen()
 // black or a smoothed value indicating how long the sequence took to diverge
 function mandelbrotValueFunction(realPart, imagPart)
 {
-    var maxIterations = 100;
-    var escapeLimit = 4;
-
     // Initially, Z = 0 + 0i
     zRealPart = 0;
     zImagPart = 0;
@@ -367,7 +378,10 @@ colorFunction = valueToSpectrum;
 viewX = -0.5;
 viewY = 0;
 viewScale = 0.5;
+maxIterations = 100;
+escapeLimit = 4;
 
+ 
 canvas.onclick = function(mouseEvent)
 {
     if (helpTextVisible) {
