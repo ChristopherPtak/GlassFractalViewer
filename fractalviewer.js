@@ -1,7 +1,9 @@
 
+// TODO: Add different quality levels
 // TODO: Parallelize this program
 // TODO: Add more fractals
-
+// TODO: Add more informative comments to the fractal rendering functions
+// TODO: Reduce code duplication in the rendering functions
 
 /**************/
 /* Page Setup */
