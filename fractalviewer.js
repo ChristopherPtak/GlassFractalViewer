@@ -280,6 +280,46 @@ function burningShipValueFunction(realPart, imagPart)
     return 0;
 }
 
+function getJuliaValueFunction(realPartC, imagPartC)
+{
+    return function (realPart, imagPart)
+    {
+        var maxIterations = 100;
+        var escapeLimit = 4;
+
+        var zRealPart = realPart;
+        var zImagPart = imagPart;
+
+        for (var i = 0; i < maxIterations; i++) {
+
+            // Take the absolute value of real and imaginary parts
+            var tempRealPart = Math.abs(zRealPart);
+            var tempImagPart = Math.abs(zImagPart);
+
+            zRealPart = Math.pow(tempRealPart, 2) - Math.pow(tempImagPart, 2);
+            zImagPart = 2 * tempRealPart * tempImagPart;
+
+            zRealPart += realPartC;
+            zImagPart += imagPartC;
+
+            if (Math.pow(zRealPart, 2) +
+                Math.pow(zImagPart, 2) >
+                escapeLimit) {
+
+                var zAbs = Math.sqrt(Math.pow(zRealPart, 2) +
+                                     Math.pow(zImagPart, 2));
+
+                // TODO: Implement a more sophisticated value calculation
+                return i / maxIterations;
+
+            }
+
+        }
+
+        return 0;
+    };
+}
+
 
 /**************************/
 /* Colorization Functions */
