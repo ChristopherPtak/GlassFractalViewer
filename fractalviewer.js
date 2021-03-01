@@ -382,7 +382,7 @@ maxIterations = 100;
 escapeLimit = 4;
 
  
-canvas.onclick = function(mouseEvent)
+function primaryClick(mouseEvent)
 {
     if (helpTextVisible) {
         hideHelpText();
@@ -412,6 +412,28 @@ canvas.onclick = function(mouseEvent)
 
     drawScreen();
 };
+
+// For choosing a point for the Julia set view
+// Needs to hijack the onclick event, gives it back at the end
+// TODO: Find a way to integrate this into the interface
+function pickJuliaSetPoint(mouseEvent)
+{
+    var realPartC = pixelToRealPart(mouseEvent.pageX);
+    var imagPartC = pixelToImagPart(mouseEvent.pageY);
+
+    setValueFunction(getJuliaValueFunction(realPartC, imagPartC));
+
+    // Reset the view so we can see the Julia set
+    viewX = -0.5;
+    viewY = 0;
+    viewScale = 0.5;
+
+    // Give back the onclick event
+    window.onclick = primaryClick;
+}
+
+
+window.onclick = primaryClick;
 
 window.onresize = function()
 {
